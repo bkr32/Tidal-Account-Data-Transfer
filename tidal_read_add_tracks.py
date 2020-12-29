@@ -1,17 +1,17 @@
 import tidalapi
+import getpass
+from tqdm import tqdm
+
 filepath = 'tidalTracks.txt'
 
 session = tidalapi.Session()
-session.login('user','pass')
+session.login(input('Username: '), getpass.getpass('Password: '))
 uid = session.user.id
 TidalUser = tidalapi.Favorites(session, uid)
 artists = TidalUser.artists()
 
-with open(filepath) as fp:
-    cnt = 1
-    for artist in fp:
-        print(artist)
-        TidalUser.add_track(artist)
-        print(artist.id)
-        cnt += 1
-        
+print('Adding ...')
+with open(filepath) as f:
+    lines = f.readlines()
+    for i in tqdm(range(len(lines))):
+        TidalUser.add_track(lines[i])

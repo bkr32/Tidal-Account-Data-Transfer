@@ -1,11 +1,10 @@
 import tidalapi
-import getpass
 from tqdm import tqdm
 
 filepath = 'tidalTracks.txt'
 
 session = tidalapi.Session()
-session.login(input('Username: '), getpass.getpass('Password: '))
+session.login_oauth_simple()
 uid = session.user.id
 TidalUser = tidalapi.Favorites(session, uid)
 artists = TidalUser.artists()
